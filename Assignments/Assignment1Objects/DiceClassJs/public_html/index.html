@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Dice class testing</title>
+        <meta charset="UTF-8">
+        <script src="Dice.js"></script>
+        <style>
+            img {width: 100px; height: 100px;}
+        </style>
+    </head>
+    <body>
+        <div><h1>The Dice Faces</h1></div>
+        
+        <script>
+            var x = new Array(6);
+            for(var i = 0; i < 6; ++i) {
+                x[i] = new Dice(i+1);
+                x[i].toString();
+            }
+            
+        </script>
+    </body>
+</html>
