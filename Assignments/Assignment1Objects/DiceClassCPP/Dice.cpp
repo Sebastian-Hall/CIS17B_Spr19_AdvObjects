@@ -28,7 +28,6 @@ void Dice::setFace(int face) {
         this->face = face;
     else
         this->face = BADVAL;
-    
 }
 
 void Dice::setPic() {
