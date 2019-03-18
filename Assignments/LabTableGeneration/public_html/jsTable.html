@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    
+    <head>
+        <title>Results</title>
+        <meta charset="UTF-8">
+        <script>
+            function make$_GET(url) {
+                var info = url.split("?");//Separate get data and domain
+                var nvp = info[1].split("&");//Separate data into name/value pairs
+                var $_GET = new Object;//Create the get object
+                for(var i = 0; i < nvp.length; ++i) {
+                    var pair = nvp[i].split("=");
+                    var name = pair[0];
+                    var value = pair[1];
+                    $_GET[name] = value;
+                }
+                return $_GET;
+            }
+        </script>
+    </head>
+    
+    <body>
+        <!--Header-->
+        <h1>Loan Results</h1>
+        
+        <!--Table of results-->
+        <div id="results"></div>
+        
+        <script>
+            //FINISH HERE
+        </script>
+        
+    </body>
+    
+</html>
