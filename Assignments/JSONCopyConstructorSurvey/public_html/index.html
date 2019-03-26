@@ -1,0 +1,200 @@
+<html lang="en-US">
+    <head>
+        <title>Survey</title>
+        <meta charset="UTF-8">
+        <script src="Question.js"></script>
+        <script src="Survey.js"></script>
+        <style>
+            .err {color:red;}
+        </style>
+    </head>
+    
+    <body>
+        <h1>Survey Creator</h1>
+        
+        <!--Get Survey data-->
+        <h2>Survey Data</h2>
+        <h4>Create the survey after creating one or more questions</h4>
+        <input id="sName" type="text" required />
+        <label for="sName">Survey Name</label><br/>
+        <input id="sDesc" type="text" required />
+        <label for="sDesc">Survey Description</label><br/>
+        <input id="key" type="text" placeholder="survey.txt" required />
+        <label for="key">Survey key (localStorage name)</label><br/>
+        <span id="err1" class="err"></span>
+        <p id="count"></p><br/><br/>
+
+        <!--Build question array-->
+        <h2>Add New Questions</h2>
+        <h4>Create multiple questions here</h4>
+        <input id="cat" type="text" />
+        <label for="cat">Category</label><span id="err2" class="err">&nbsp;</span><br/>
+        <input id="ques" type="text" />
+        <label for="ques">Question</label><br/>
+        <input id="numAns" type="text" />
+        <label for="numAns">Number of answers</label><br/>
+        <input id="makeForm" type="button" value="Create Answers Form" /><br/>
+        <div id="answers">&nbsp;</div>
+        
+        <!--Survey control buttons-->
+        <br/><br/>
+        <input id="create" type="button" value="Create The Survey" />
+        <input id="display" type="button" value="Display Current Survey" />
+        <input id="save" type="button" value="Store in local storage" />
+        <a href="fromLocalStorage.html">Link to survey viewer</a>
+        <div id="theSurvey"></div>
+        
+        <script>
+            //Declare variables
+            var quesArr = [];//Empty array of questions
+            var survey = null;//null object
+            
+            //Add event listeners
+            document.getElementById("makeForm").addEventListener("click", ansForm);
+            document.getElementById("numAns").addEventListener("change",ansForm);
+            document.getElementById("create").addEventListener("click", makeSrvy);
+            document.getElementById("display").addEventListener("click", viewSrvy);
+            document.getElementById("save").addEventListener("click", saveSrvy);
+            window.onload = quesCnt();
+            
+            
+            function saveSrvy() {
+                //Declare and initialize variables
+                var key = document.getElementById("key").value;
+                
+                //Return if survey does not exist
+                if(survey == null) {
+                    return;
+                }
+                //Stringify and store survey object
+                var text = JSON.stringify(survey);
+                localStorage.setItem(key, text);
+            }
+            
+            function viewSrvy() {
+                var area = document.getElementById("theSurvey");
+                if(survey == null) {//If survey doesn't exist then return
+                    area.innerHTML = "<p>Survey must be created first</p>";        
+                    return;
+                }
+                //Display the survey
+                area.innerHTML = survey.toHTML();
+            }
+            
+            function makeSrvy() {
+                //Declare and initialize variables
+                var name = document.getElementById("sName");
+                var desc = document.getElementById("sDesc");
+                var key = document.getElementById("key");
+                var errSpan = document.getElementById("err1");
+                
+                //Check for empty name, empty description, or no questions
+                if(name.value == "" || desc.value == "") {
+                    var errMsg = " Enter both a name and description for the survey";
+                    errSpan.innerHTML = errMsg;
+                    return;
+                } else if(key.value == "") {
+                    errMsg = "Enter a name to save array as in local storage";
+                    errSpan.innerHTML = errMsg;
+                    return;
+                } else if(quesArr.length == 0) {
+                    var errMsg = "Create at least 1 question first";
+                    errSpan.innerHTML = errMsg;
+                    return;
+                } else {
+                    errSpan.innerHTML = "";
+                }
+                //Create survey
+                survey = new Survey(name.value, desc.value, quesArr);
+                
+                //Make survey data fields uneditable
+                name.readOnly = true;
+                desc.readOnly = true;
+                key.readOnly = true;
+                document.getElementById("create").disabled = true;
+            } 
+            function ansForm() {
+                //Declare variables
+                var qCat = document.getElementById("cat").value;
+                var qName = document.getElementById("ques").value;
+                
+                //Get number of answers for question
+                var input = document.getElementById("numAns").value;
+                var numAns = parseInt(input);
+                
+                //Check if name or category is missing
+                if(qCat == "" || qName == "") {
+                    var errMsg = " Category and Question required";
+                    document.getElementById("err2").innerHTML = errMsg;
+                    return;
+                } else {
+                    document.getElementById("err2").innerHTML = "";
+                }
+                
+                //Check if input given is not a valid number
+                if(isNaN(numAns) || numAns < 1) {
+                    var txtBox = document.getElementById("numAns");
+                    txtBox.value = "Invalid value";
+                    txtBox.select();
+                    txtBox.requestFocus();
+                    return;//Leave function if invalid number of questions
+                }
+                //Build HTML form for answers
+                var output = "";
+                output += "<h4>Answers</h4>";
+                for(var i = 0; i < numAns; ++i) {
+                    output += "<input id='ans" + i + "' type='text' />";
+                    output += "<label for='ans" + i + "'>Answer " + 
+                            (i+1) + "</label><br/>";
+                }
+                //Add button to form to submit answers
+                output += "<input id='submitQues' type='button'" + 
+                        " value='Submit Question' required /><br/>";
+                
+                //Output form to screen
+                document.getElementById("answers").innerHTML = output;
+                
+                //Add event listener to submit question button
+                document.getElementById("submitQues").addEventListener("click", makeQues);
+                
+                //Make numAns textfield uneditable
+                document.getElementById("numAns").readOnly = true;
+            }
+            
+            function makeQues() {
+                //Declare and initialize variables
+                var qCat = document.getElementById("cat").value;
+                var qName = document.getElementById("ques").value;
+                var numAns = document.getElementById("numAns").value;
+                var ansArr = [];
+                
+                //Fill the array with the provided answers
+                for(var i = 0; i < numAns; ++i) {
+                    var ans = document.getElementById("ans" + i).value;
+                    ansArr.push(ans);
+                }
+                
+                //Create the question with the answers
+                var ques = new Question(qCat, qName, ansArr);
+                if(survey == null) {//If survey object doesn't exist
+                    quesArr.push(ques);//Add to local question array
+                } else {               //If it does exist
+                    survey.pushQ(ques);//Add to surveys qArray
+                }
+                quesCnt();
+                
+                //Reset question/answer form
+                document.getElementById("answers").innerHTML = "&nbsp;";
+                document.getElementById("numAns").readOnly = false;
+                document.getElementById("numAns").value = "";
+                document.getElementById("cat").value = "";
+                document.getElementById("ques").value = "";
+            }
+            
+            function quesCnt() {
+                var output = "Current number of questions: " + quesArr.length;
+                document.getElementById("count").innerHTML = output;
+            }
+        </script>
+    </body>
+</html>

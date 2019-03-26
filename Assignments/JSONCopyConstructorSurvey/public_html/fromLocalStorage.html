@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Load a survey from local storage</title>
+        <meta charset="UTF-8">
+        <script src="Question.js"></script>
+        <script src="Survey.js"></script>
+        <style>
+            .err {color:red;}
+        </style>
+    </head>
+    
+    <body>
+        <h1>Survey Viewer</h1>
+        <h3>Enter a key for a survey you created before</h3>
+        <input id="key" type="text" />
+        <label for="key">Survey Key</label><span id="err1" class="err"></span><br/>
+        <input id="display" type="button" value="Load and Display Survey" /><br/>
+        <a href="index.html">Back to survey creator</a>
+        
+        <div id="theSurvey">&nbsp;</div>
+        
+        <script>
+            document.getElementById("display").addEventListener("click", loadSurvey);
+            
+            function loadSurvey() {
+                //Declare and initialize variables
+                var output = "";
+                
+                //Check for empty key string
+                var key = document.getElementById("key").value;
+                if(key == "") {
+                    var errMsg = "Enter a survey key";
+                    document.getElementById("key").innerHTML = errMsg;
+                    return;
+                }
+                //Load from local storage
+                var text = localStorage.getItem(key);
+                if(text != null) {
+                    var obj = JSON.parse(text);
+                    var survey = new Survey(obj);
+                    output = "<p>Survey loaded from local storage and created" + 
+                             " with copy constructor</p>";
+                    output += survey.toHTML();
+                } else {
+                    output = "That key does not exist in local storage";
+                }
+                //Display the survey
+                document.getElementById("theSurvey").innerHTML = output;
+            }
+        </script>
+    </body>
+</html>

@@ -28,7 +28,39 @@
         <div id="results"></div>
         
         <script>
-            //FINISH HERE
+            //Send url to get
+            var url = window.location.href;
+            var $_GET = make$_GET(url);
+            
+            //Declare variables
+            var L = $_GET["L"];//Loan amount
+            var n = $_GET["n"];//Number of periods
+            var i = $_GET["i"];//Interest
+            var iPerM = i/n;//Interest rate per month
+            var mp = 0;//Monthy payment
+            var output = "";
+            
+            //Calculate monthly payment
+            var val = Math.pow((1+(iPerM/100)),n);//Convenience value(1+iPerM)^n
+            mp = ((iPerM/100)*val*L) / (val-1);
+            var amt = mp - L/n;
+            
+            //Format three variables for output
+            output += "<p>Loan amount: $" + L + "</p>";
+            output += "<p>Interest / m: " + iPerM + "%</p>";
+            output += "<p># of months: " + n + "</p>";
+            output += "<p>Payment / m: $" + mp.toFixed(2) + "</p>";
+            output += "<table><tr><th>Month</th><th>Loan Remaining</th><th>Interest Paid</th></tr>";
+            
+            for(var i = 0; i < n; ++i) {
+                var LR = L * (n-i)/n;
+                output += "<tr><td>" + i + "</td>";
+                output+= "<td>" + LR.toFixed(2) + "</td>";
+                output += "<td>" + amt.toFixed(2) + "</td></tr>";
+            }
+            output += "</table>";
+            //Set output as innerHTML
+            document.getElementById("results").innerHTML = output;
         </script>
         
     </body>
