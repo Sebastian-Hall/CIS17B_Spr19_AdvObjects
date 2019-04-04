@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8"/>
+    <link href="style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="mvc.js"></script>
+    <title>Tic Tac Toe</title>
+</head>
+
+<body>
+    <div id="gameArea">
+        <h2 id="msgArea">&nbsp;</h2>
+        <table id="board"></table>
+        <input type="button" onclick="window.location.reload();" value="Restart Game" />
+    </div>
+    
+    <script>
+        //Initialize on load
+        window.onload = init;
+        
+        //Functions
+        function init() {
+            //Declare and initialize variables
+            var row = model.rows, col = model.cols;//Number of rows and columns
+            var board = "<caption>Tic Tac Toe</caption>";//String for game board
+            
+            //Build table 
+            board +="<tbody>";//Start table body
+            for(var i = 0; i < row; ++i) {//For each row in board
+                board += "<tr>";//Start each row
+                for(var j = 0; j < col; ++j) {//For each col in each row
+                    //Construct each tiles id
+                    var elemId = i.toString() + j.toString();
+                    
+                    //Create each game tile as td
+                    board += "<td id='" + elemId + "'></td>"
+                }
+                board += "</tr>";//End of row
+            }
+            board += "</tbody>";//End table body
+            
+            //Set board on page
+            document.getElementById("board").innerHTML = board;
+            
+            //Add event listeners for each game tile
+            for(var i = 0; i < row; ++i) {
+                for(var j = 0; j < col; ++j) {
+                    //Construct each tiles id
+                    var elemId = i.toString() + j.toString();
+                    var elem = document.getElementById(elemId);
+                    elem.addEventListener("click", function(){controller.handleClick(this)});
+                }
+            }
+            //Set initial message
+            view.setMsg("Player 1's Turn");
+        }
+    </script>
+</body>
+
+</html>

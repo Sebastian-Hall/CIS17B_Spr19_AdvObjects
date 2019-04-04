@@ -1,0 +1,21 @@
+table {
+    border: none;
+    background: url("board.png") no-repeat center;
+    background-size: 100%;
+}
+
+td {
+    width: 200px;
+    height: 200px;
+    background: no-repeat center;
+    background-size: 80%;
+}
+
+caption {
+    font-size: 4em;
+}
+
+#gameArea {
+    width: 600px;
+    margin: auto;
+}
