@@ -1,0 +1,41 @@
+/* 
+    Created on : Apr 21, 2019, 11:31:05 AM
+    Author     : Sebastian Hall
+*/
+
+/*
+ * Elements
+ */
+fieldset {
+    text-align: left;
+    margin: 14px;
+}
+
+input {
+    margin: 7px 14px;
+}
+
+/*
+ * ID's
+ */
+#main {
+    width: 60vw;
+    margin: 0px auto;
+    background-color: antiquewhite;
+    height: 95vh;
+    text-align: center;
+}
+
+#actionArea {
+    width: 20vw;
+    margin: auto;
+    text-align: left;
+}
+
+/*
+ * Classes
+ */
+.err {
+    color: red;
+    font-size: 0.75em;
+}
