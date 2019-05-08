@@ -4,14 +4,14 @@
 function Product(prodId, prodQ, prodName, path, price) {
     "use strict";
     //Declare and initialize variables
-    var nArgs = arguments.length;//Number of arguments provided
-    var defId = -1;//Default id
-    var defQ = 0;//Default quantity
-    var defName = "Default Name";//Default name
-    var defPath = "Default Path";//Default path
-    var defPrice = 0.0;//Default price
-    var defOrdr = 0;//Default amount ordered
-    var defSub = 0.0;//Default subtotal of product
+    var nArgs = arguments.length,//Number of arguments provided
+        defId = -1,//Default id
+        defQ = 0,//Default quantity
+        defName = "Default Name",//Default name
+        defPath = "Default Path",//Default path
+        defPrice = 0.0,//Default price
+        defOrdr = 0,//Default amount ordered
+        defSub = 0.0;//Default subtotal of product
     
     //Create question basesd on # of arguments
     if (nArgs < 1 || nArgs > 5) {//Default constructor, no or too many arguments
@@ -121,6 +121,7 @@ Product.prototype.getImgPath = function () {
 Product.prototype.setPrice = function (price) {
     "use strict";
     this.price = price;
+    this.updateSub();
 };
 
 //Get price
@@ -133,9 +134,9 @@ Product.prototype.getPrice = function () {
 Product.prototype.setOrdered = function (amnt) {
     "use strict";
     //Validate amount ordered
-    if(amnt > this.quantity) {
+    if (amnt > this.quantity) {
         amnt = this.quantity;
-    } else if(amnt < 0) {
+    } else if (amnt < 0) {
         amnt = 0;
     }
     //Set amount ordered and update quantity
@@ -148,9 +149,9 @@ Product.prototype.setOrdered = function (amnt) {
 Product.prototype.addOrdered = function (amnt) {
     "use strict";
     //Validate amount ordered
-    if(amnt > this.quantity) {
+    if (amnt > this.quantity) {
         amnt = this.quantity;
-    } else if(amnt < 0) {
+    } else if (amnt < 0) {
         amnt = 0;
     }
     this.ordered += amnt;
@@ -162,14 +163,15 @@ Product.prototype.addOrdered = function (amnt) {
 Product.prototype.minusOrdered = function (amnt) {
     "use strict";
     //Validate amount
-    if(amnt < 0) {
+    if (amnt < 0) {
         amnt = 0;
     }
     //Update quantity, amount ordered, and subtotal
     this.quantity += amnt;
     this.ordered -= amnt;
-    if(this.ordered < 0)
+    if (this.ordered < 0) {
         this.ordered = 0;
+    }
     this.updateSub();
 };
 
@@ -177,19 +179,19 @@ Product.prototype.minusOrdered = function (amnt) {
 Product.prototype.getOrdered = function () {
     "use strict";
     return this.ordered;
-}
+};
 
 //Update subtotal
 Product.prototype.updateSub = function () {
     "use strict";
     this.subtotal = this.ordered * this.price;
-}
+};
 
 //Get subtotal
 Product.prototype.getSub = function () {
     "use strict";
     return this.subtotal;
-}
+};
 
 /*
  * Displaying/outputting information of product
@@ -200,5 +202,6 @@ Product.prototype.dump = function () {
     "use strict";
     return "Id: " + this.id + "<br/>Quantity: " + this.quantity + "<br/>Name: " + 
         this.name + "<br/>Image Path: " + this.imgPath + "<br/>Price: $" +
-        this.price + "<br/>Ordered: " + this.ordered + "<br/>Subtotal: $" + this.subtotal + "<br/><br/>";
+        this.price + "<br/>Ordered: " + this.ordered + "<br/>Subtotal: $" +
+        this.subtotal + "<br/><br/>";
 };

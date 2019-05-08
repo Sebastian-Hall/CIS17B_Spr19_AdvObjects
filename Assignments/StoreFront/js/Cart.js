@@ -5,7 +5,7 @@ function Cart(cart) {
     "use strict";
     this.products = [];//Create products array
     if (arguments.length > 0) {//Copy constructor
-        for(var i = 0; i < cart.products.length; ++i) {//Populate products array
+        for (var i = 0; i < cart.products.length; ++i) {//Populate products array
             this.products.push(new Product(cart.products[i]))
         }
         this.total = cart.total;//Copy total
@@ -77,7 +77,7 @@ Cart.prototype.dump = function () {
     "use strict";
     var output = "";
     for (var i = 0; i < this.products.length; ++i) {
-        output += "Product " + this.products[i].getId() + "<br/>";
+        output += "Product: " + this.products[i].getName() + "<br/>";
         output += this.products[i].dump();
     }
     output += "Total: $" + this.total + "<br/><br/>";
