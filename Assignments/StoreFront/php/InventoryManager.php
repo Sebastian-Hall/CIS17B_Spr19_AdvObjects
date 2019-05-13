@@ -22,6 +22,8 @@
         }
         #updateProd {
             float: right;
+            position: sticky;
+            top: 0;
         }
         .err {
             color: red; font-size: 0.75em;
