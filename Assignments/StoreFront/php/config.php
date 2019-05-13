@@ -9,4 +9,11 @@ function connect($server, $username, $password, $db) {
     }
     return $conn;
 }
+
+function testInput($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
 ?> 

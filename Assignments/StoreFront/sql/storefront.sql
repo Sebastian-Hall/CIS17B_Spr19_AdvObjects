@@ -80,9 +80,11 @@ CREATE TABLE `entity_product` (
   `product_name` varchar(50) NOT NULL,
   `product_img_path` varchar(255) DEFAULT 'default/image/path.png',
   `product_price` float DEFAULT '0',
+  `product_category` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`product_id`),
-  UNIQUE KEY `product_name` (`product_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `product_name` (`product_name`),
+  UNIQUE KEY `product_name_2` (`product_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +93,7 @@ CREATE TABLE `entity_product` (
 
 LOCK TABLES `entity_product` WRITE;
 /*!40000 ALTER TABLE `entity_product` DISABLE KEYS */;
-INSERT INTO `entity_product` VALUES (1,150,'Big Rat','../images/bigrat.png',15.99),(2,48,'Small Rat','../images/smallrat.png',7.99),(3,810,'Medium Rat','../images/mediumrat.png',12.99),(4,13,'Massive Rat','../images/big/rat.png',199.99),(5,273,'Elongated Rat','../images/elongatedrat.png',19.99),(6,55284,'Miniature Rat','../images/miniaturerat.png',0.49),(7,750,'Wide Rat','../images/widerat.png',30),(8,273,'Hairy Rat','../images/hairyrat.png',4.99);
+INSERT INTO `entity_product` VALUES (1,150,'Big Rat','../images/bigrat.png',15.99,'rat'),(2,48,'Small Rat','../images/smallrat.png',7.99,'rat'),(3,810,'Medium Rat','../images/mediumrat.png',12.99,'rat'),(4,13,'Massive Rat','../images/massiverat.png',179.99,'rat'),(5,273,'Elongated Rat','../images/elongatedrat.png',19.99,'rat'),(6,55284,'Miniature Rat','../images/miniaturerat.png',0.49,'rat'),(7,750,'Wide Rat','../images/widerat.png',11.99,'rat'),(8,272,'Hairy Rat','../images/hairyrat.png',2.99,'rat'),(9,35,'Sneaky Rat','../images/sneakyrat.png',22.99,'rat'),(10,15,'King Rat','../images/kingrat.png',999.99,'rat'),(11,1,'Ghost Rat','../images/ghostrat.png',3.99,'rat'),(12,1,'Chuck E Cheese','../images/chuckecheese.png',480.99,'rat'),(13,100,'Moderate Mouse','../images/moderatemouse.png',1.99,'mouse'),(14,50,'Red Squirrel','../images/redsquirrel.png',12.99,'squirrel'),(15,20,'Black Squirrel','../images/blacksquirrel.png',5.99,'squirrel'),(16,100,'White Squirrel','../images/whitesquirrel.png',9.99,'squirrel'),(17,15,'Mega Mouse','../images/megamouse.png',6.99,'mouse'),(18,1,'Harry Rat','../images/harryrat.png',259.99,'rat'),(19,1,'Jeb Rat','../images/jebrat.png',0.99,'rat');
 /*!40000 ALTER TABLE `entity_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,4 +161,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-07 22:33:59
+-- Dump completed on 2019-05-12 22:49:45
