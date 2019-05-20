@@ -88,14 +88,14 @@ function createTable() {
     $result = $conn->query($sql);
     
     //Echo products results into a table
-    echo "<form action='UpdateProduct.php' method='post' target='editFrame' id='updateForm'>";
+    echo "<form action='updateproducts.php' method='post' target='editFrame' id='updateForm'>";
     echo "<table><tr><th>Id</th><th>Quantity</th><th>Name</th><th>Path</th><th>price</th><th>Category</th></tr>";
     echo "<caption>Current Products</caption>";
     while($row = $result->fetch_assoc()) {
         $id = $row["product_id"];
         echo "<tr>";
         echo "<td>" . $id . "</td><td>" . $row["product_quantity"]. "</td><td>" . $row["product_name"]. "</td><td>" . $row["product_img_path"] . "</td><td>" . $row["product_price"]. "</td><td>" . $row["product_category"] . "</td>";
-        echo "<td class='edit'><input type='button' value='Update' onclick='(function() {edit($id);})()' /></td>";
+        echo "<td class='noBorder'><input type='button' value='Update' onclick='(function() {edit($id);})()' /></td>";
         echo "</tr>";
     }
     echo "</table>";

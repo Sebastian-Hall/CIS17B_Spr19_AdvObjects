@@ -16,52 +16,52 @@ function Product(prodId, prodQ, prodName, path, price) {
     //Create question basesd on # of arguments
     if (nArgs < 1 || nArgs > 5) {//Default constructor, no or too many arguments
         this.id = defId;
-        this.quantity = defQ;
+        this.quantity = parseInt(defQ);
         this.name = defName;
         this.imgPath = defPath;
-        this.price = price;
-        this.ordered = defOrdr;
-        this.subtotal = defSub;
+        this.price = parseFloat(defPrice);
+        this.ordered = parseInt(defOrdr);
+        this.subtotal = parseFloat(defSub);
     } else if (nArgs === 5) {//All arguments provided
         this.id = prodId;
-        this.quantity = prodQ;
+        this.quantity = parseInt(prodQ);
         this.name = prodName;
         this.imgPath = path;
-        this.price = price;
-        this.ordered = defOrdr;
-        this.subtotal = defSub;
+        this.price = parseFloat(price);
+        this.ordered = parseInt(defOrdr);
+        this.subtotal = parseFloat(defSub);
     } else if (nArgs === 4) {//Id, quantity, name, and path provided
         this.id = prodId;
-        this.quantity = prodQ;
+        this.quantity = parseInt(prodQ);
         this.name = prodName;
         this.imgPath = path;
-        this.price = defPrice;
-        this.ordered = defOrdr;
-        this.subtotal = defSub;
+        this.price = parseFloat(defPrice);
+        this.ordered = parseInt(defOrdr);
+        this.subtotal = parseFloat(defSub);
     } else if (nArgs === 3) {//Id, quantity, and name provided
         this.id = prodId;
-        this.quantity = prodQ;
+        this.quantity = parseInt(prodQ);
         this.name = prodName;
         this.imgPath = defPath;
-        this.price = defPrice;
-        this.ordered = defOrdr;
-        this.subtotal = defSub;
+        this.price = parseFloat(defPrice);
+        this.ordered = parseInt(defOrdr);
+        this.subtotal = parseFloat(defSub);
     } else if (nArgs === 2) {//Id and quantity provided
         this.id = prodId;
-        this.quantity = prodQ;
+        this.quantity = parseInt(prodQ);
         this.name = defName;
         this.imgPath = defPath;
-        this.price = defPrice;
-        this.ordered = defOrdr;
-        this.subtotal = defSub;
+        this.price = parseFloat(defPrice);
+        this.ordered = parseInt(defOrdr);
+        this.subtotal = parseFloat(defSub);
     } else {               //1 arg, copy constructor
         this.id = prodId.id;
-        this.quantity = prodId.quantity;
+        this.quantity = parseInt(prodId.quantity);
         this.name = prodId.name;
         this.imgPath = prodId.imgPath;
-        this.price = prodId.price;
-        this.ordered = prodId.ordered;
-        this.subtotal = prodId.subtotal;
+        this.price = parseFloat(prodId.price);
+        this.ordered = parseInt(prodId.ordered);
+        this.subtotal = parseFloat(prodId.subtotal);
     }
 }
 
@@ -84,7 +84,7 @@ Product.prototype.getId = function () {
 //Set quantity available
 Product.prototype.setQuantity = function (prodQ) {
     "use strict";
-    this.quantity = prodQ;
+    this.quantity = parseInt(prodQ);
 };
 
 //Get quantity
@@ -120,7 +120,7 @@ Product.prototype.getImgPath = function () {
 //Set price of product
 Product.prototype.setPrice = function (price) {
     "use strict";
-    this.price = price;
+    this.price = parseFloat(price);
     this.updateSub();
 };
 
@@ -134,34 +134,38 @@ Product.prototype.getPrice = function () {
 Product.prototype.setOrdered = function (amnt) {
     "use strict";
     //Validate amount ordered
+    amnt = parseInt(amnt);
     if (amnt > this.quantity) {
-        amnt = this.quantity;
+        amnt = parseInt(this.quantity);
     } else if (amnt < 0) {
         amnt = 0;
     }
     //Set amount ordered and update quantity
-    this.ordered = amnt;
-    this.quantity -= amnt;
+    this.ordered = parseInt(amnt);
+    if(this.ordered > this.quantity) this.ordered = this.quantity;//Validate
+    this.quantity -= parseInt(amnt);
     this.updateSub();
 };
 
 //Add to amount ordered
 Product.prototype.addOrdered = function (amnt) {
     "use strict";
+    amnt = parseInt(amnt);
     //Validate amount ordered
-    if (amnt > this.quantity) {
-        amnt = this.quantity;
+    if (amnt > parseInt(this.quantity)) {
+        amnt = parseInt(this.quantity);
     } else if (amnt < 0) {
         amnt = 0;
     }
-    this.ordered += amnt;
-    this.quantity -= amnt;
+    this.ordered += parseInt(amnt);
+    this.quantity -= parseInt(amnt);
     this.updateSub();
 };
 
 //Subtract from amount ordered
 Product.prototype.minusOrdered = function (amnt) {
     "use strict";
+    amnt = parseInt(amnt);
     //Validate amount
     if (amnt < 0) {
         amnt = 0;
@@ -184,7 +188,9 @@ Product.prototype.getOrdered = function () {
 //Update subtotal
 Product.prototype.updateSub = function () {
     "use strict";
-    this.subtotal = this.ordered * this.price;
+    this.subtotal = this.ordered * this.price;//Calculate price
+    var tmp = this.subtotal.toFixed(2);//Convert to decimal string to remove floating error
+    this.subtotal = parseFloat(tmp);//Parse back to float
 };
 
 //Get subtotal

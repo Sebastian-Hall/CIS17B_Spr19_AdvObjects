@@ -1,116 +1,133 @@
 <!DOCTYPE html>
+<?php
+    //Start session
+    if(session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    //Include scripts
+    require_once('phpScripts/prodTableScript.php');
+?>
 <html lang="en-US">
     <head>
-        <script src="js/Product.js"></script>
         <script src="js/Cart.js"></script>
+        <script src="js/Product.js"></script>
         <script>
-            function setLogin() {
-                document.getElementById("action").value = "login";
-                document.forms.buttonForm.submit();
+            function addToCart(id, quantity, name, img_path, price) {
+                //Declare variables
+                var callingInput = document.getElementById(id);//Input element that calls holds quantity ordered
+                var numOrdered = callingInput.value;//Quantity ordered
+                var txt = (window.sessionStorage.getItem("userCart")) ? window.sessionStorage.getItem("userCart") : "";//Holds the json text for sessionStorage
+                var prod = new Product(id, quantity, name, img_path, price);//Product to be added
+                var userCart;//Users cart
+                
+                //Exit function if value is empty
+                if(numOrdered === "") {
+                    return;//Exit function
+                }
+                
+                //Create cart from json or new object
+                if(txt != "") {//If string create object from json format
+                    userCart = JSON.parse(txt);
+                    userCart = new Cart(userCart);
+                } else {//Else create a new cart
+                    userCart = new Cart();
+                }
+                
+                //Set product ordered and remove item from cart if previously added
+                prod.setOrdered(numOrdered);//Set ordered
+                userCart.removeProduct(id);//Remove chosen product from cart
+                
+                //If number ordered is not 0 then add item to cart
+                if(numOrdered != "0") {
+                    userCart.addProduct(prod);//Add product to cart
+                }
+                
+                //Store cart in session storage
+                txt = JSON.stringify(userCart);
+                window.sessionStorage.setItem("userCart", txt);
+                
+                //Update calling input
+                callingInput.value = "";
+                callingInput.setAttribute("placeholder", "In Cart: " + numOrdered);
             }
-            function setSignup() {
-                document.getElementById("action").value = "signup";
-                document.forms.buttonForm.submit();
-            }
-        </script>
-        <?php
-        //Include files
-        require_once('php/config.php');
-        
-        //Declare variables
-        $username = $password = $confirmPassword = "";//Username and password
-        $usernameErr = $passwordErr = "";//Error message for username and password
-        $pattern = "/^\w{4,20}$/";//Regex pattern for username/password
-        $isValid = true;//Flag for valid form submission
-        $conn = connect("localhost", "root", "", "storefront");//Connection to db
-        
-        //Check if page loaded with post
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            //Get data from post
-            if(isSet($_POST["username"])) {//Set username
-                $username = $_POST["username"];
-            } else { $username = ""; }
-            if(isSet($_POST["password"])) {//Set password
-                $password = $_POST["password"];
-            } else { $password = ""; }
-            
-            //Check if username is invalid
-            if(!preg_match($pattern, $username)) {
-                $isValid = false;
-                $usernameErr = "4-20 Alphanumerical Characters";
-            } else {
-                $usernameErr = "";
-            }
-            
-            //Check if password is invalid
-            if(!preg_match($pattern, $password)) {
-                $isValid = false;
-                $passwordErr = "4-20 Alphanumerical Characters";
-            }
-            
-            //If signup option chosen check if passwords match
-            if($_GET["action"] == "signup") {
-                if(isSet($_POST["confirmPassword"])) {
-                    $confirmPassword = $_POST["confirmPassword"];
-                } else { $confirmPassword = ""; }
-                if($confirmPassword != $password) {
-                    $isValid = false;
-                    $passwordErr = "Passwords Do Not Match";
+            function limitOrdered(id) {
+                var elem = document.getElementById(id);
+                var max = parseInt(elem.getAttribute("max"));
+                var min = parseInt(elem.getAttribute("min"));
+                if(parseInt(elem.value) > max) {
+                    elem.value = max;
+                }
+                if(parseInt(elem.value) < min) {
+                    elem.value = min;
                 }
             }
-            
-            //If form info is valid do sql else nothing
-            if($isValid) {
-                echo "valid info. taking you somewhere special. checking if sign up and create or login and validate";
-            }
-            
-            //Close database connection
-            $conn->close();
-        }
-        ?>
+        </script>
+        <link href="css/sitestyle.css" rel="stylesheet" type="text/css" />
         <meta charset="utf-8" />
-        <title>Rodent Store Login</title>
-        <style>
-            .center {
-                text-align: center;
-            }
-        </style>
+        <title>Rodent Store</title>
     </head>
     
     <body>
-        <!--Page Header-->
+        <!--Header-->
         <header>
-            <h1 class="center">The Rodent Store</h1>
+            <img src="images/ratbanner.png" alt="Rodent Store Banner" />
         </header>
         
-        <!--Login or Sign Up Buttons-->
-        <form id="buttonForm" method="get" target="_self" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <input type="button" id="loginButton" onclick="setLogin();" value="Returning Customer" />
-            <input type="button" id="signupButton" onclick="setSignup();" value="New Customer" />
-            <input id="action" type="hidden" name="action" />
-        </form>
-        
-        <!--Login or signup form-->
-        <div id="accessForm">
-        <form method='post' target='_self' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" >
-            <label for='username'>Username</label><br/>
-            <input id='username' type='text' name='username' value='<?php echo $username; ?>' />
-            <span class='error'> * <?php echo $usernameErr;?></span><br/>
-            <label for='password'>Password</label><br/>
-            <input id='password' type='password' name='password' />
-            <span class='error'> * <?php echo $passwordErr;?></span><br/>
-            <?php
-            if(isSet($_GET["action"])) {
-                if($_GET["action"] == "signup") {
-                    echo "<label for='confirmPassword'>Confirm Password</label><br/>";
-                    echo "<input id='confirmPassword' type='password' name='confirmPassword' /><br/>";
+        <!--Navigation-->
+        <nav>
+            <ul>
+                <li><p><strong>Site Navigation</strong></p></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="login.php">Sign Up or Login</a></li>
+                <li><a href="cart.php">Checkout</a></li>
+                <?php
+                if(isSet($_SESSION["type"])) {
+                    if($_SESSION["type"] == "admin") {
+                        echo "<li><a href='inventorymanager.php'>Inventory Manager</a></li>";
+                    }
                 }
-            }
-            ?>
-            <input type="submit" value="<?php echo ucfirst($_POST["action"]);?>" >
-            </form>
+                ?>
+                <?php
+                if(isSet($_SESSION["username"])) {
+                    echo "<li><a href='phpScripts/logoutScript.php'>Sign Out</a></li>";
+                }
+                ?>
+            </ul>
+        </nav>
+        
+        <!--User info div-->
+        <?php
+        echo "<div class='userInfo'>";
+        if(isSet($_SESSION["username"])) {
+            echo "<h5>Welcome Back " . $_SESSION['username'] . "!</h5>";
+            echo "<input type='button' value='Sign Out' onclick='location.href=\"phpScripts/logoutScript.php\";' />";
+        } else {
+            echo "<h5>Welcome Guest</h5>";
+            echo "<input type='button' value='Login or Sign Up' onclick='location.href=\"login.php\";' />";
+        }
+        echo "</div>";
+        ?>
+        
+        <!--Main document area-->
+        <div class="main">
+            <!--Category selector-->
+            <div id="catSelector">
+                <h1 class="center white">Shop By Category</h1>
+                <ul>
+                    <li><a class="center" href="index.php?cat=rat"><h3>Rat</h3></a></li>
+                    <li><a class="center" href="index.php?cat=mouse"><h3>Mouse</h3></a></li>
+                    <li><a class="center" href="index.php?cat=squirrel"><h3>Squirrel</h3></a></li>
+                    <li><a class="center" href="index.php"><h3>All</h3></a></li>
+                </ul>
+            </div>
             
+            <!--Product Area-->
+            <?php
+            displayProducts();
+            ?>
+            
+            <!--Checkout button-->
+            <input type="button" value="Checkout" onclick="window.location.href='cart.php';" id="checkout" />
         </div>
     </body>
-    
 </html>

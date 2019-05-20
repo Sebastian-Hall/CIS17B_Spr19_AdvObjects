@@ -43,7 +43,7 @@ Cart.prototype.addProduct = function (prod) {
     //Check if item already in cart
     for(var i = 0; i < this.products.length; ++i) {
         if(this.products[i].getId() === prod.getId()) {//If item is already in cart
-            this.products[i].addOrdered(prod.getOrdered());//Just increase quantity
+            this.products[i].setOrdered(prod.getOrdered());//Just increase quantity
             this.updateTotal();//Update total
             return;
         }
@@ -60,7 +60,7 @@ Cart.prototype.getProducts = function () {
 };
 
 //Remove product based on product id
-Cart.prototype.rmvProd = function (id) {
+Cart.prototype.removeProduct = function (id) {
     "use strict";
     //Remove product if it exists
     for(var i = 0; i < this.products.length; ++i) {//Iterate through products

@@ -24,8 +24,14 @@ if($results->num_rows > 0) {
     //Run deletion query and display results
     if($conn->query($delsql)) {//If deleted say so
         echo "<h3>$name was successfully deleted</h3>";//Output results
-    } else {//Let user know it failed to delete
-        echo "<h3>Deleting $name ended up like a botched abortion</h3>";
+    } else {//Else remove item from all carts that have the item and run query again
+        $rmvFrgKey = "DELETE FROM storefront.xref_cart_product WHERE product_id=$id;";
+        $conn->query($rmvFrgKey);
+        if($conn->query($delsql)) {
+            echo "<h3>$name was successfully deleted and removed from users carts</h3>";
+        } else {
+            echo "<h3>Failure to remove $name from cart</h3>";
+        }
     }
 }
 else {//Let user know item does not exist
