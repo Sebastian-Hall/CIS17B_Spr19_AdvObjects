@@ -20,9 +20,9 @@
                 var prod = new Product(id, quantity, name, img_path, price);//Product to be added
                 var userCart;//Users cart
                 
-                //Exit function if value is empty
+                //If value empty set to 0
                 if(numOrdered === "") {
-                    return;//Exit function
+                    numOrdered = "0";
                 }
                 
                 //Create cart from json or new object

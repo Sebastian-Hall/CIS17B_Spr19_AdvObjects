@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS `storefront` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `storefront` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `storefront`;
 -- MySQL dump 10.16  Distrib 10.1.36-MariaDB, for Linux (x86_64)
 --
@@ -31,7 +31,7 @@ CREATE TABLE `entity_account` (
   `account_type` varchar(6) DEFAULT 'user',
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_username` (`account_username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `entity_account` (
 
 LOCK TABLES `entity_account` WRITE;
 /*!40000 ALTER TABLE `entity_account` DISABLE KEYS */;
-INSERT INTO `entity_account` VALUES (1,'SebastianHall69','Kallel13$','admin');
+INSERT INTO `entity_account` VALUES (1,'SebastianHall69','Password69','admin'),(2,'mandi','cecil','user'),(3,'rat','gingers','user'),(4,'arkhamknight','batman','user'),(5,'RatBuyer','ratbuyer','user'),(6,'ben','password','admin');
 /*!40000 ALTER TABLE `entity_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,8 +53,9 @@ DROP TABLE IF EXISTS `entity_cart`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entity_cart` (
   `cart_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cart_json_text` text NOT NULL,
   PRIMARY KEY (`cart_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +64,7 @@ CREATE TABLE `entity_cart` (
 
 LOCK TABLES `entity_cart` WRITE;
 /*!40000 ALTER TABLE `entity_cart` DISABLE KEYS */;
-INSERT INTO `entity_cart` VALUES (1);
+INSERT INTO `entity_cart` VALUES (14,'{\"products\":[{\"id\":1,\"quantity\":141,\"name\":\"Buff Rat\",\"imgPath\":\"images/buffrat.png\",\"price\":15.99,\"ordered\":4,\"subtotal\":63.96}],\"taxrate\":0.08,\"total\":69.0768}');
 /*!40000 ALTER TABLE `entity_cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,7 +85,7 @@ CREATE TABLE `entity_product` (
   PRIMARY KEY (`product_id`),
   UNIQUE KEY `product_name` (`product_name`),
   UNIQUE KEY `product_name_2` (`product_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +94,7 @@ CREATE TABLE `entity_product` (
 
 LOCK TABLES `entity_product` WRITE;
 /*!40000 ALTER TABLE `entity_product` DISABLE KEYS */;
-INSERT INTO `entity_product` VALUES (1,150,'Big Rat','images/bigrat.png',15.99,'rat'),(2,48,'Small Rat','images/smallrat.png',7.99,'rat'),(3,810,'Medium Rat','images/mediumrat.png',12.99,'rat'),(4,13,'Massive Rat','images/massiverat.png',179.99,'rat'),(5,273,'Elongated Rat','images/elongatedrat.png',19.99,'rat'),(6,55284,'Miniature Rat','images/miniaturerat.png',0.49,'rat'),(7,750,'Wide Rat','images/widerat.png',11.99,'rat'),(8,272,'Hairy Rat','images/hairyrat.png',2.99,'rat'),(9,35,'Sneaky Rat','images/sneakyrat.png',22.99,'rat'),(10,15,'King Rat','images/kingrat.png',999.99,'rat'),(11,1,'Ghost Rat','images/ghostrat.png',3.99,'rat'),(12,1,'Chuck E Cheese','images/chuckecheese.png',480.99,'rat'),(13,100,'Moderate Mouse','images/moderatemouse.png',1.99,'mouse'),(14,50,'Red Squirrel','images/redsquirrel.png',12.99,'squirrel'),(15,20,'Black Squirrel','images/blacksquirrel.png',5.99,'squirrel'),(16,100,'White Squirrel','images/whitesquirrel.png',9.99,'squirrel'),(17,15,'Mega Mouse','images/megamouse.png',6.99,'mouse'),(18,1,'Harry Rat','images/harryrat.png',259.99,'rat'),(19,1,'Jeb Rat','images/jebrat.png',0.99,'rat');
+INSERT INTO `entity_product` VALUES (1,145,'Buff Rat','images/buffrat.png',15.99,'rat'),(2,48,'Small Rat','images/smallrat.png',7.99,'rat'),(3,810,'Medium Rat','images/mediumrat.png',12.99,'rat'),(4,13,'Massive Rat','images/massiverat.png',179.99,'rat'),(5,273,'Elongated Rat','images/elongatedrat.png',19.99,'rat'),(6,55284,'Miniature Rat','images/miniaturerat.png',0.49,'rat'),(7,750,'Wide Rat','images/widerat.png',11.99,'rat'),(8,272,'Hairy Rat','images/hairyrat.png',2.99,'rat'),(9,35,'Sneaky Rat','images/sneakyrat.png',22.99,'rat'),(10,1,'King Rat','images/kingrat.png',999.99,'rat'),(11,25,'Ghost Rat','images/ghostrat.png',3.99,'rat'),(12,1,'Chuck E Cheese','images/chuckecheese.png',480.99,'rat'),(13,100,'Moderate Mouse','images/moderatemouse.png',1.99,'mouse'),(14,50,'Red Squirrel','images/redsquirrel.png',12.99,'squirrel'),(15,20,'Black Squirrel','images/blacksquirrel.png',5.99,'squirrel'),(16,100,'White Squirrel','images/whitesquirrel.png',9.99,'squirrel'),(17,15,'Mega Mouse','images/megamouse.png',6.99,'mouse'),(18,20,'Harry Rat','images/harryrat.png',259.99,'rat'),(20,2000000,'Communist Rat','images/communistrat.png',0.19,'rat'),(21,15,'High Definition Rat','images/highdefrat.png',29.99,'rat'),(22,40,'Hunchback Rat','images/hunchbackrat.png',4.82,'rat'),(23,5,'Scary Rat','images/scaryrat.png',12.99,'rat'),(24,300,'Pink Squirrel','images/pinksquirrel.png',8.99,'squirrel'),(25,150,'Yellow Squirrel','images/yellowsquirrel.png',7.99,'squirrel'),(26,34,'Blue Squirrel','images/bluesquirrel.png',5.99,'squirrel'),(27,69,'Green Squirrel','images/greensquirrel.png',69.69,'squirrel'),(28,10,'Copyright Mouse','images/copyrightmouse.png',1399.99,'mouse'),(29,10000,'Basic Mouse','images/basicmouse.png',1.99,'mouse'),(30,15,'People Mouse','images/peoplemouse.png',22.29,'mouse'),(31,200,'Kangaroo','images/kangaroo.png',2099.99,'mouse');
 /*!40000 ALTER TABLE `entity_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,36 +121,8 @@ CREATE TABLE `xref_account_cart` (
 
 LOCK TABLES `xref_account_cart` WRITE;
 /*!40000 ALTER TABLE `xref_account_cart` DISABLE KEYS */;
-INSERT INTO `xref_account_cart` VALUES (1,1);
+INSERT INTO `xref_account_cart` VALUES (1,14);
 /*!40000 ALTER TABLE `xref_account_cart` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `xref_cart_product`
---
-
-DROP TABLE IF EXISTS `xref_cart_product`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `xref_cart_product` (
-  `cart_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `product_ordered` int(11) NOT NULL,
-  KEY `cart_id` (`cart_id`),
-  KEY `product_id` (`product_id`),
-  CONSTRAINT `xref_cart_product_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `entity_cart` (`cart_id`),
-  CONSTRAINT `xref_cart_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `entity_product` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `xref_cart_product`
---
-
-LOCK TABLES `xref_cart_product` WRITE;
-/*!40000 ALTER TABLE `xref_cart_product` DISABLE KEYS */;
-INSERT INTO `xref_cart_product` VALUES (1,3,10),(1,5,48),(1,4,3);
-/*!40000 ALTER TABLE `xref_cart_product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -161,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-12 22:49:45
+-- Dump completed on 2019-05-23 20:33:12

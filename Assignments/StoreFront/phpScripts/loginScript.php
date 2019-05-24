@@ -112,7 +112,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {//Process input from user
                 //Set db cart in session storage
                 echo "var txt = JSON.stringify(userCart);";
                 echo "sessionStorage.setItem('userCart', txt);";
-                echo "window.location.href='index.php';";
                 echo "</script>";
             }
         } else {
@@ -123,5 +122,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {//Process input from user
     
     //Close database connection
     $conn->close();
+    
+    //Redirect to index if logged in
+    if($loggedIn) {
+        echo "<script>window.location.href='index.php';</script>";
+    }
 }
 ?>

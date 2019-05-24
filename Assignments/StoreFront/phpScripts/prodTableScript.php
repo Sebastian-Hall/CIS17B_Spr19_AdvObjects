@@ -33,7 +33,7 @@ function displayProducts() {
                 echo "<div class='prodInput'>";
                 echo "<input id='" . $row["product_id"] . "' type='number' max='" . $row["product_quantity"] . "' min='0' step='1' placeholder='Order Quantity' onchange='limitOrdered(" . $row["product_id"] . ");' />";
                 echo "<input type='submit' value='Add To Cart' onclick='addToCart(" . $row["product_id"] . ", " . $row["product_quantity"] . ", \"" . $row["product_name"] . "\", \"" . $row["product_img_path"] . "\", " . $row["product_price"] . ")' />";
-                echo "<input type='hidden' id='jsonText' name='jsonText' value='default' />";
+                echo "<input type='hidden' id='jsonText' name='jsonText' />";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
