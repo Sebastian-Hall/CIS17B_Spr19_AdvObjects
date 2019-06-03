@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <?php
-session_start();
+if(session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 if(!isSet($_SESSION["username"])) {//If not logged in
     header("location:index.php");
 }
@@ -14,7 +16,12 @@ if(!isSet($_SESSION["username"])) {//If not logged in
         <title>Create a Survey</title>
     </head>
     <body>
+        <!--Header-->
+        <header>
+            <img src="creatorheader.png" alt="header" />
+        </header>
         <div id="main">
+            <a href="home.php" style="float: left; text-decoration: none; display: block; position: absolute; width: 10vw; height: 7vh; line-height: 7vh; background: linear-gradient(#cbf6ff, #00d5ff); color: black; margin-left: 2vw; border-radius: 10px;">Home</a>
             <!--Button to create survey-->
             <input type="button" id="createSurvey" value="Create Survey" onclick="createSurvey();" /><br/>
             

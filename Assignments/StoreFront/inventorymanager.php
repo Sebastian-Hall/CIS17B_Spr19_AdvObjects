@@ -3,6 +3,9 @@
     if(session_status() == PHP_SESSION_NONE) {
         session_start();
     }
+    if(!isSet($_SESSION["type"]) || $_SESSION["type"] == "user") {
+        header("location:index.php");
+    }
     require_once('phpScripts/inventoryScript.php');
 ?>
 <html lang="en-US">
@@ -29,22 +32,11 @@
     <!--Navigation-->
     <nav>
         <ul>
-            <li><p><strong>Site Navigation</strong></p></li>
-            <li><a href="index.php">Shop</a></li>
-            <li><a href="cart.php">Cart</a></li>
-            <?php
-            if(!isSet($_SESSION["username"])) {
-                echo "<li><a href='login.php'>Sign Up or Login</a></li>";
-            }
-            if(isSet($_SESSION["type"])) {
-                if($_SESSION["type"] == "admin") {
-                    echo "<li><a href='inventorymanager.php'>Inventory Manager</a></li>";
-                }
-            }
-            if(isSet($_SESSION["username"])) {
-                echo "<li><a href='phpScripts/logoutScript.php'>Sign Out</a></li>";
-            }
-            ?>
+            <li><p><strong>Admin Navigation</strong></p></li>
+            <li><a href="index.php">Back To Store</a></li>
+            <li><a href="administration.php">Admin Page</a></li>
+            <li><a href="inventorymanager.php">Inventory Management</a></li>
+            <li><a href="usermanager.php">User Management</a></li>
         </ul>
     </nav>
     

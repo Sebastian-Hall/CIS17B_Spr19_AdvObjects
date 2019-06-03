@@ -18,7 +18,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {//Process input from user
     if(isSet($_POST["loginUsername"])) {
         //Search database for username provided
         $uname = $_POST["loginUsername"];
-        $sql = "SELECT `user_id`, `user_username`, `user_password` FROM `surveyengine`.`users` WHERE `user_username`='$uname'";
+        $sql = "SELECT `user_id`, `user_username`, `user_password`, `user_type` FROM `surveyengine`.`entity_users` WHERE `user_username`='$uname'";
         $result = $conn->query($sql);
 
         //If login was found
@@ -28,6 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {//Process input from user
                 $_SESSION["username"] = $uname;
                 $_SESSION["password"] = $pword;
                 $_SESSION["id"] = $loginInfo["user_id"];
+                $_SESSION["type"] = $loginInfo["user_type"];
                 header("location:home.php");
             } else {//Invalid password
                 echo "<script>" .
@@ -52,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {//Process input from user
         $pword = $_POST["signUpPassword"];
 
         //Check if username already exists
-        $sql = "SELECT `user_id`, `user_username`, `user_password` FROM `surveyengine`.`users` WHERE `user_username`='$uname'";
+        $sql = "SELECT `user_id`, `user_username`, `user_password` FROM `surveyengine`.`entity_users` WHERE `user_username`='$uname'";
         $result = $conn->query($sql);
         
         //If username is found
@@ -65,11 +66,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {//Process input from user
                     "}" .
                 "</script>";
         } else {
-            $sql = "INSERT INTO `surveyengine`.`users` (`user_username`, `user_password`) VALUES ('$uname', '$pword');";
+            $sql = "INSERT INTO `surveyengine`.`entity_users` (`user_username`, `user_password`) VALUES ('$uname', '$pword');";
             $conn->query($sql);
             $_SESSION["username"] = $uname;
             $_SESSION["password"] = $pword;
             $_SESSION["id"] = $conn->insert_id;
+            $_SESSION["type"] = "user";
             header("location:home.php");
         }
     }

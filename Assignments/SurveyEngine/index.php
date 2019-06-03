@@ -14,6 +14,10 @@ require_once('login.php');
         <title>Login Or Sign Up</title>
     </head>
     <body>
+        <!--Header-->
+        <header>
+            <img src="header.png" alt="header" />
+        </header>
         <div id="main">
             <!--Login or Sign Up Buttons-->
             <div>

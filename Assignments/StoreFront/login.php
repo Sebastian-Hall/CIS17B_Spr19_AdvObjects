@@ -35,7 +35,7 @@ if(session_status() == PHP_SESSION_NONE) {
                 }
                 if(isSet($_SESSION["type"])) {
                     if($_SESSION["type"] == "admin") {
-                        echo "<li><a href='inventorymanager.php'>Inventory Manager</a></li>";
+                        echo "<li><a href='administration.php'>Admin Page</a></li>";
                     }
                 }
                 if(isSet($_SESSION["username"])) {

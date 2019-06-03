@@ -130,3 +130,35 @@ Survey.prototype.display = function() {
     //Display survey
     document.write(output);
 };
+
+//Display result set with answers of query
+Survey.prototype.resultSet = function() {
+    var output = "<h1>Cumulative Results</h1>";
+    output += "<h2>" + this.name + "</h2>";
+    output += "<h3>" + this.desc + "</h3>";
+    for(var i = 0; i < this.qArray.length; ++i) {
+        output += this.qArray[i].showAnswers();
+    }
+    return output;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

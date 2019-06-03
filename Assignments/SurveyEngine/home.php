@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <?php
-session_start();
-if(!isSet($_SESSION["username"])) {
+if(session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if(!isSet($_SESSION["username"])) {//If not logged in
     header("location:index.php");
 }
 ?>
@@ -14,10 +16,16 @@ if(!isSet($_SESSION["username"])) {
         <title>Survey Engine</title>
     </head>
     <body>
+        <!--Header-->
+        <header>
+            <img src="header.png" alt="header" />
+        </header>
         <div id="main">
-            <h1>Welcome to the main page</h1>
-            <a href="creator.php">Create a new survey</a>
-            <a href="surveyviewer.php">View my surveys</a>
+            <h1>Create Surveys</h1>
+            <h2>Share With Others</h2>
+            <h2>View Your Results</h2>
+            <div class="opt"><a href="creator.php" class="optLink">Create a New Survey</a></div>
+            <div class="opt"><a href="surveyviewer.php" class="optLink">View Your Created Surveys</a></div>
         </div>
     </body>
 </html>
