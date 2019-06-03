@@ -45,7 +45,9 @@
                 //Store cart in session storage and in hidden input
                 txt = JSON.stringify(userCart);
                 window.sessionStorage.setItem("userCart", txt);
-                document.getElementById("jsonText").value = txt;
+                document.getElementById("jsonText" + id).value = txt;
+                document.getElementById("updateForm" + id).submit();
+                console.log(txt);
                 
                 //Update calling input
                 callingInput.value = "";

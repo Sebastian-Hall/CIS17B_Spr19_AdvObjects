@@ -23,7 +23,7 @@ function displayProducts() {
     if($result = $conn->query($sql)) {//If execution successful
         if($result->num_rows > 0) {//If num rows > 0 create table
             while($row = $result->fetch_assoc()) {
-                echo "<form action='phpScripts/updateCartScript.php' target='_blank' method='post'>";
+                echo "<form action='phpScripts/updateCartScript.php' target='_blank' method='post' id='updateForm" . $row["product_id"] . "' >";
                 echo "<div class='product'>";
                 echo "<img class='prodImg' src='" . $row["product_img_path"] ."' alt='" . $row["product_img_path"] . "' />";
                 echo "<div class='prodInfo'>";
@@ -32,8 +32,8 @@ function displayProducts() {
                 echo "<h5>Price: $" . number_format($row["product_price"], 2) . "</h5>";
                 echo "<div class='prodInput'>";
                 echo "<input id='" . $row["product_id"] . "' type='number' max='" . $row["product_quantity"] . "' min='0' step='1' placeholder='Order Quantity' onchange='limitOrdered(" . $row["product_id"] . ");' />";
-                echo "<input type='submit' value='Add To Cart' onclick='addToCart(" . $row["product_id"] . ", " . $row["product_quantity"] . ", \"" . $row["product_name"] . "\", \"" . $row["product_img_path"] . "\", " . $row["product_price"] . ")' />";
-                echo "<input type='hidden' id='jsonText' name='jsonText' />";
+                echo "<input type='button' value='Add To Cart' onclick='addToCart(" . $row["product_id"] . ", " . $row["product_quantity"] . ", \"" . $row["product_name"] . "\", \"" . $row["product_img_path"] . "\", " . $row["product_price"] . ")' />";
+                echo "<input type='hidden' id='jsonText" . $row["product_id"] . "' name='jsonText' />";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";

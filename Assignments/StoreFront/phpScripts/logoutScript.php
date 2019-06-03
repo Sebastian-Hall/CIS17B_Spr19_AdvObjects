@@ -20,7 +20,7 @@ if(isSet($_SESSION["type"])) {
 
 //Remove cart from sessionStorage and return home
 echo "<script>"; 
-echo "sessionStorage.clear();";
+echo "sessionStorage.removeItem('userCart');";
 echo "window.location.href='../index.php';";
 echo "</script>";
 ?>
