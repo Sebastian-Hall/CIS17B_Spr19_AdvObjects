@@ -15,6 +15,10 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Create storefront and set as default
+CREATE SCHEMA `storefront`;
+USE `storefront`;
+
 --
 -- Table structure for table `entity_account`
 --
